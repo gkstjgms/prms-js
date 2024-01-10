@@ -1,5 +1,5 @@
-import { store, updateStorage } from "../store";
-import { toHidden, toShow } from "../util";
+import { store, updateStorage } from "../store.js";
+import { toHidden, toShow } from "../util.js";
 
 const $currentAssetInput = document.querySelector(".current-asset-input");
 const $currentAssetValue = document.querySelector(".current-asset-value");
@@ -7,36 +7,36 @@ const $currentAssetButton = document.querySelector(".current-asset-button");
 const $addItemButton = document.querySelector(".add-item-button");
 
 export function initCurrentAsset() {
-  renderCurrentAsset();
-  addCurrentAssetEventListener();
+    renderCurrentAsset();
+    addCurrentAssetEventListener();
 }
 
 function addCurrentAssetEventListener() {
-  $currentAssetValue.addEventListener("click", function (event) {
-    if (!store.isFirstEdit) return;
-    toHidden(event.target);
-    toShow($currentAssetInput);
-    toShow($currentAssetButton);
+    $currentAssetValue.addEventListener("click", function (event) {
+        if (!store.isFirstEdit) return;
+        toHidden(event.target);
+        toShow($currentAssetInput);
+        toShow($currentAssetButton);
 
-    $currentAssetInput.focus();
-  });
+        $currentAssetInput.focus();
+    });
 
-  $currentAssetButton.addEventListener("click", function (event) {
-    toHidden(event.target);
-    toHidden($currentAssetInput);
-    toShow($currentAssetValue);
-    toShow($addItemButton);
+    $currentAssetButton.addEventListener("click", function (event) {
+        toHidden(event.target);
+        toHidden($currentAssetInput);
+        toShow($currentAssetValue);
+        toShow($addItemButton);
 
-    store.currentFunds = Number($currentAssetInput.value);
-    renderCurrentAsset();
+        store.currentFunds = Number($currentAssetInput.value);
+        renderCurrentAsset();
 
-    store.isFirstEdit = false;
+        store.isFirstEdit = false;
 
-    updateStorage();
-  });
+        updateStorage();
+    });
 }
 
 export function renderCurrentAsset() {
-  $currentAssetValue.textContent = store.currentFunds?.toLocaleString() ?? "-";
-  $currentAssetInput.value = store.currentFunds;
+    $currentAssetValue.textContent = store.currentFunds ? store.currentFunds.toLocaleString() : "-";
+    $currentAssetInput.value = store.currentFunds;
 }
